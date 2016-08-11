@@ -1,10 +1,20 @@
 var Movie = Backbone.Model.extend({
 
   defaults: {
-    like: true
+    like: true,
+  },
+  initialize: function(title,year,rating){
+    this.set('title', title),
+    this.set('year', year),
+    this.set('rating', rating)
   },
 
   toggleLike: function() {
+    if ( this.get("like") === true) {
+      this.set('like', false);
+    } else {
+      this.set('like', true);
+    }
     // your code here
   }
 
@@ -15,14 +25,27 @@ var Movies = Backbone.Collection.extend({
   model: Movie,
 
   initialize: function() {
+    this.on('change', function() {
+      this.sort();
+    }, this);
     // your code here
+  
   },
+  
+  // comparator: function() {
+  //   this.set('comparator');
+  // },
 
-  comparator: 'title',
+  'comparator': 'title',
 
   sortByField: function(field) {
+    this.comparator = field;
+    this.sort();
+    // this.set('comparator', field);
+    console.log(field);
+    console.log(this.comparator);
     // your code here
-  }
+  },
 
 });
 
